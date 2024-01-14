@@ -11,6 +11,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {addItemToCart} from './redux/CartSlice';
 import {useNavigation} from '@react-navigation/native';
 import {addItemToFav} from './redux/FavSlice';
+import {FetchData} from './redux/ApiCallSlice';
 
 const Products = () => {
   const reduxData = useSelector(state => state);
@@ -19,9 +20,12 @@ const Products = () => {
   console.log(reduxData.cart.data.length);
 
   const dispatch = useDispatch();
+  const apiData = useSelector(state => state.api);
+  console.log("api response====>",apiData);
 
   useEffect(() => {
-    getProducts();
+    dispatch(FetchData());
+    // getProducts();
   }, []);
   const getProducts = () => {
     fetch('https://fakestoreapi.com/products')
@@ -76,7 +80,7 @@ const Products = () => {
             color: 'black',
             fontWeight: '600',
             padding: 10,
-            textDecorationLine:'underline'
+            textDecorationLine: 'underline',
           }}
           onPress={() => {
             navigation.navigate('Fav');
@@ -85,7 +89,7 @@ const Products = () => {
         </Text>
       </View>
       <FlatList
-        data={allProducts}
+        data={apiData.data}
         renderItem={({item, index}) => {
           return (
             <View
