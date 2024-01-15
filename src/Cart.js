@@ -10,6 +10,7 @@ import {
 const Cart = () => {
   const cartData = useSelector(state => state.cart);
   const dispatch = useDispatch();
+  console.log(cartData)
   return (
     <View>
       <FlatList

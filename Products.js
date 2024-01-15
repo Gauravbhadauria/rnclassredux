@@ -12,6 +12,7 @@ import {addItemToCart} from './redux/CartSlice';
 import {useNavigation} from '@react-navigation/native';
 import {addItemToFav} from './redux/FavSlice';
 import {FetchData} from './redux/ApiCallSlice';
+import {useGetAllProductsByRtkQuery, useGetProductByIdQuery} from './redux/RTkDemoSlice';
 
 const Products = () => {
   const reduxData = useSelector(state => state);
@@ -21,10 +22,13 @@ const Products = () => {
 
   const dispatch = useDispatch();
   const apiData = useSelector(state => state.api);
-  console.log("api response====>",apiData);
+  const {isError,isFetching,isLoading,isSuccess,data} = useGetAllProductsByRtkQuery();
+  const productById=useGetProductByIdQuery(1)
+  console.log("prodcut by id==>",productById)
 
   useEffect(() => {
     dispatch(FetchData());
+
     // getProducts();
   }, []);
   const getProducts = () => {
@@ -89,7 +93,7 @@ const Products = () => {
         </Text>
       </View>
       <FlatList
-        data={apiData.data}
+        data={data}
         renderItem={({item, index}) => {
           return (
             <View
@@ -158,3 +162,6 @@ const Products = () => {
 };
 
 export default Products;
+
+//redux persist
+//storage: asyncs storage
